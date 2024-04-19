@@ -4,6 +4,7 @@ body{
  text-align: center;
  background: #000;
  cursor:crosshair;
+
 }
 
 p{
@@ -12,6 +13,7 @@ p{
 
 .header{
  top: 42%;
+ 
 }
 
 .disable-selection{
