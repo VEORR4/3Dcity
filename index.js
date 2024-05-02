@@ -1,5 +1,5 @@
 //Base parameters
-var renderer = new THREE.WebGLRenderer({ antialas: true })
+var renderer = new THREE.WebGLRenderer({antialas: true})
 renderer.setSize(window.innerWidth, window.innerHeight)
 
 if (window.innerWidth > 800) {
@@ -57,7 +57,7 @@ function setTintColor() {
 }
 
 //create city
-function init() {
+function init(){
      var segments = 2
      for (var i = 1; i < 100; i++) {
           var geometry = new THREE.CubeGeometry(
@@ -70,197 +70,218 @@ function init() {
           )
           var material = new THREE.MeshStandardMaterial({
                color: setTintColor(),
-               wireFrame: false,
-               shading: THREE.SmoothShading,
+               wireframe: false,
+               flatShading: THREE.SmoothShading,
                side: THREE.DoubleSide,
           })
           var wmaterial = new THREE.MeshLambertMaterial({
-               color: 0xFFFFFF,
-               wireFrame: true,
+               color: 0xffffff,
+               wireframe: true,
                transparent: true,
                opacity: 0.03,
                side: THREE.DoubleSide,
           })
 
-          var cube = new THREE.Mesh(geometry, material);
-          var wire = new THREE.Mesh(geometry, material);
-          var floor = new THREE.Mesh(geometry, material);
-          var wfloor = new THREE.Mesh(geometry, material);
+          var cube = new THREE.Mesh(geometry, material)
+          var wire = new THREE.Mesh(geometry, material)
+          var floor = new THREE.Mesh(geometry, material)
+          var wfloor = new THREE.Mesh(geometry, material)
 
-          cube.add(wfloor);
-          cube.setShadow = true;
-          cube.receiveShadow = true;
-          cube.rotationValue = 0.1 + Math.abs(mathRandom(8));
-          floor.scale.y = 0.1 + Math.abs(mathRandom(8));
+          cube.add(wfloor)
+          cube.setShadow = true
+          cube.receiveShadow = true
+          cube.rotationValue = 0.1 + Math.abs(mathRandom(8))
+          floor.scale.y = 0.05
+          cube.scale.y = 0.1 + Math.abs(mathRandom(8))
 
-          var cubeWidth = 0.9;
-          cube.scale.x = cube.scale.z = cubeWidth + mathRandom(1 - cubeWidth);
-          cube.position.x = math.round(mathRandom());
-          cube.position.z = math.round(mathRandom());
+          var cubeWidth = 0.9
+          cube.scale.x = cube.scale.z = cubeWidth + mathRandom(1 - cubeWidth)
+          cube.position.x = Math.round(mathRandom())
+          cube.position.z = Math.round(mathRandom())
 
-          floor.position.set(cube.positon.x, 0, cube.position.z);
+          // floor.position.set(cube.positon.x, 0, cube.position.z)
 
-          town.add(floor);
-          town.add(cube);
-     };
+          town.add(floor)
+          town.add(cube)
+     }
 
      //Particulars
-     var gmaterial = new THREE.MeshToonMaterial({color:0xFFFF00, side: THREE.DoubleSide});
-     var gparticular = new THREE.CircleGeometry(0.01, 3);
-     var aparticular = 5;
+     var gmaterial = new THREE.MeshToonMaterial({
+          color: 0xffff00,
+          side: THREE.DoubleSide,
+     })
+     var gparticular = new THREE.CircleGeometry(0.01, 3)
+     var aparticular = 5
 
-     for(var h = 1; h < 300; h++){
-      var particular = new THREE.Mesh(gparticular, gmaterial);
-      particular.position.set(mathRandom(aparticular), mathRandom(aparticular), mathRandom(aparticular));
-      particular.rotation.set(mathRandom(), mathRandom(), mathRandom());
-      somoke.add(particular);
-     };
+     for (var h = 1; h < 300; h++) {
+          var particular = new THREE.Mesh(gparticular, gmaterial)
+          particular.position.set(
+               mathRandom(aparticular),
+               mathRandom(aparticular),
+               mathRandom(aparticular)
+          )
+          particular.rotation.set(mathRandom(), mathRandom(), mathRandom())
+          smoke.add(particular)
+     }
 
      var pmaterial = new THREE.MeshPhongMaterial({
-      color: 0x000000,
-      side: THREE.DoubleSide,
-      roughness: 10,
-      metalness: 0.6,
-      opacity:0.9,
-      transparent: true
-     });
+          color: 0x000000,
+          side: THREE.DoubleSide,
+          roughness: 10,
+          metalness: 0.6,
+          opacity: 0.9,
+          transparent: true,
+     })
 
-     var pgeometry = new THREE.PlaneGeometry(60,60);
-     var pelement = new THREE.Mesh(pgeometry, pmaterial);
-     pelement.rotation.x = -90 * Math.PI / 180;
-     pelement.position.y = -0.001;
-     pelement.receiveShadow = True;
-     city.add(pelement);
-};
+     var pgeometry = new THREE.PlaneGeometry(60, 60)
+     var pelement = new THREE.Mesh(pgeometry, pmaterial)
+     pelement.rotation.x = (-90 * Math.PI) / 180
+     pelement.position.y = -0.001
+     pelement.receiveShadow = true
+     city.add(pelement)
+}
 
 // Mouse functions
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2(), INTERSECTED;
-var intersected;
+var raycaster = new THREE.Raycaster()
+var mouse = new THREE.Vector2(),
+     INTERSECTED
+var intersected
 
-function onMouseMove(e){
-  e.preventDefault();
-  mouse.x = (e.clientX / window.innerWidth) * 2 -1;
-  mouse.y = (e.clientY / window.innerHeight) * 2 + 1;
-};
+function onMouseMove(e) {
+     e.preventDefault()
+     mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+     mouse.y = (e.clientY / window.innerHeight) * 2 + 1
+}
 
-function onMouseMove(e){
-   mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-   mouse.y = (e.clientY / window.innerHeight) * 2 + 1;
-};
+function onMouseMove(e) {
+     mouse.x = (e.clientX / window.innerWidth) * 2 - 1
+     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1
+}
 
-function onDocumentTouchStart(e){
-   if(e.touches.length == 1){
-      e.preventDefault();
-      mouse.x = e.touches[0].pageX - window.innerWidth / 2;
-      mouse.y = e.touches[0].pageY - window.innerHeight / 2;
-   };
-};
-function onDocumentTouchMove(e){
-   if(e.touches.length == 1){
-      e.preventDefault();
-      mouse.x = e.touches[0].pageX - window.innerWidth / 2;
-      mouse.y = e.touches[0].pageY - window.innerHeight / 2;
-   };
-};
+function onDocumentTouchStart(e) {
+     if (e.touches.length == 1) {
+          // e.preventDefault()
+          mouse.x = e.touches[0].pageX - window.innerWidth / 2
+          mouse.y = e.touches[0].pageY - window.innerHeight / 2
+     }
+}
+function onDocumentTouchMove(e) {
+     if (e.touches.length == 1) {
+          e.preventDefault()
+          mouse.x = e.touches[0].pageX - window.innerWidth / 2
+          mouse.y = e.touches[0].pageY - window.innerHeight / 2
+     }
+}
 
-window.addEventListener('mousemove', onMouseMove, false);
-window.addEventListener('touchstart', onDocumentTouchStart, false);
-window.addEventListener('touchmove', onDocumentTouchMove, false);
+window.addEventListener("mousemove", onMouseMove, false)
+window.addEventListener("touchstart", onDocumentTouchStart, false)
+window.addEventListener("touchmove", onDocumentTouchMove, false)
 
 //Create lights
-var ambientLight = new THREE.AmbientLight(0xFFFFFF, 4);
-var lightFront = new THREE.SpotLight(0xFFFFFF, 20, 10);
-var lightBack = new THREE.PointLight(0xFFFFFF, 0.5);
-var spotLightHelper = new THREE.spotLightHelper(lightFront);
+var ambientLight = new THREE.AmbientLight(0xffffff, 4)
+var lightFront = new THREE.SpotLight(0xffffff, 20, 10)
+var lightBack = new THREE.PointLight(0xffffff, 0.5)
+var spotLightHelper = new THREE.SpotLightHelper(lightFront)
 
-lightFront.rotation.x = 45 * Math.PI / 180;
-lightFront.rotation.z = -45 * Math.PI / 180;
-lightFront.position.set(5, 5, 5);
-lightFront.castShow = true;
-lightFront.shadow.mapSize.width = 6000;
-lightFront.shadow.mapSize.height = lightFront.shadow.mapSize.width;
-lightFront.penumbra = 0.1;
-lightBack.position.set(0, 6, 0);
+lightFront.rotation.x = (45 * Math.PI) / 180
+lightFront.rotation.z = (-45 * Math.PI) / 180
+lightFront.position.set(5, 5, 5)
+lightFront.castShadow = true
+lightFront.shadow.mapSize.width = 6000
+lightFront.shadow.mapSize.height = lightFront.shadow.mapSize.width
+lightFront.penumbra = 0.1
+lightBack.position.set(0, 6, 0)
 
-smoke.position.y = 2;
+smoke.position.y = 2
 
-scene.add(ambientLight);
-city.add(lightFront);
-scene.add(ambientBack);
-scene.add(city);
-city.add(smoke);
-city.add(town);
+scene.add(ambientLight)
+city.add(lightFront)
+scene.add(lightBack)
+scene.add(city)
+city.add(smoke)
+city.add(town)
 
 //Grid helper
-var gridHelper = new THREE.GridHelper(60, 120, 0xFF0000, 0x000000);
-city.add(gridHelper);
+var gridHelper = new THREE.GridHelper(60, 120, 0xff0000, 0x000000)
+city.add(gridHelper)
 
 //cars World
-var createCars = function (cScale = 2, cPos = 20, cColor = 0xFFFF00){
-   var cMat = new THREE.MeshToonMaterial({color: cColor, side: THREE.DoubleSide});
-   var cGeo = new THREE.CubeGeometry(1, cScale / 40, cScale / 40);
-   var cElem = new THREE.Mesh(cGeo, cMat);
-   var cAmp = 3;
-   
-   if(createCarPos){
-      createCarPos = false;
-      cElem.position.x = -cPos;
-      cElem.position.z = (mathRandom(cAmp));
+var createCars = function (cScale = 2, cPos = 20, cColor = 0xffff00) {
+     var cMat = new THREE.MeshToonMaterial({
+          color: cColor,
+          side: THREE.DoubleSide,
+     })
+     var cGeo = new THREE.CubeGeometry(1, cScale / 40, cScale / 40)
+     var cElem = new THREE.Mesh(cGeo, cMat)
+     var cAmp = 3
 
-      TweenMax.to(cElem.position, 3, {x: cPos, repeat: -1, yoyo: true, delay: mathRandom(3)});
-   } else{
-      createCarPos = true;
-      cElen.position.x = (mathRandom(cAmp));
-      cElen.position.z = -cPos;
-      cElem.position.y = 90 * Math.PI / 180;
+     if (createCarPos) {
+          createCarPos = false
+          cElem.position.x = -cPos
+          cElem.position.z = mathRandom(cAmp)
 
-      TweenMax.to(cElem.position, 5, {z: cPos, repeat: -1, yoyo: true,
-       delay: mathRandom(3), ease: Powerl.easeInOut});  
-   };
-   cElem.receiveShadow = true;
-   cElem.castShow = true;
-   cElem.position.y = Math.abs(mathRandom(5));
-   city.add(cElem);
-};
+          TweenMax.to(cElem.position, 3, {
+               x: cPos,
+               repeat: -1,
+               yoyo: true,
+               delay: mathRandom(3),
+          })
+     } else {
+          createCarPos = true
+          cElem.position.x = mathRandom(cAmp)
+          cElem.position.z = -cPos
+          cElem.rotation.y = (90 * Math.PI) / 180
 
-var generateLines = function(){
-     for (var i = 0; i < 60; i++){
-          createCars(0, 1, 20);
-     };
-};
+          TweenMax.to(cElem.position, 5, {
+               z: cPos,
+               repeat: -1,
+               yoyo: true,
+               delay: mathRandom(3),
+               ease: Power1.easeInOut,
+          })
+     }
+     cElem.receiveShadow = true
+     cElem.castShow = true
+     cElem.position.y = Math.abs(mathRandom(5))
+     city.add(cElem)
+}
+
+var generateLines = function () {
+     for (var i = 0; i < 60; i++) {
+          createCars(0, 1, 20)
+     }
+}
 
 //Camera position
-var cameraSet = function(){
-     createCars(0.1, 20, 0xFFFFFF);
-};
+var cameraSet = function () {
+     createCars(0.1, 20, 0xffffff)
+}
 
 //Animate functions
-var animate = function (){
-     var time = Date.now() * 0.00005;
-     requestAnimationFrame(animate);
+var animate = function () {
+     var time = Date.now() * 0.00005
+     requestAnimationFrame(animate)
 
-     city.rotation.y -= ((mouse.x * 8) - camera.rotation.y) * uSpeed;
-     city.rotation.x -= (-(mouse.y * 2) - camera.rotation.x) * uSpeed;
-     if(city.rotation.x < -0.05){
-          city.rotation.x = -0.05;
-     }else if (city.rotation.x > 1){
-          city.rotation.x = 1;
+     city.rotation.y -= (mouse.x * 8 - camera.rotation.y) * uSpeed
+     city.rotation.x -= (-(mouse.y * 2) - camera.rotation.x) * uSpeed
+     if (city.rotation.x < -0.05) {
+          city.rotation.x = -0.05
+     } else if (city.rotation.x > 1) {
+          city.rotation.x = 1
      }
-     var cityRotation = Math.sin(Date.now() / 5000) * 13;
-     for(let i = 0, l = town.children.length; i < l; i++){
-          var object = town.children[i];
+     var cityRotation = Math.sin(Date.now() / 5000) * 13
+     for (let i = 0, l = town.children.length; i < l; i++) {
+          var object = town.children[i]
      }
 
-     smoke.rotation.y += 0.01;
-     smoke.rotation.x += 0.01;
+     smoke.rotation.y += 0.01
+     smoke.rotation.x += 0.01
 
-     camera.lookAt(city.position);
-     renderer.renderer(scene, camera);
-} 
-
+     camera.lookAt(city.position)
+     renderer.render(scene, camera)
+}
 
 //Calling main functions
 generateLines()
 init()
-animate()
+// animate()
