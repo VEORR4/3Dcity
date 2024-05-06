@@ -87,7 +87,7 @@ function init(){
           cube.position.x = Math.round(mathRandom());
           cube.position.z = Math.round(mathRandom());
 
-          floor.position.set(cube.positon.x, 0, cube.position.z);
+          floor.position.set(cube.position.x, 0, cube.position.z);
 
           town.add(floor);
           town.add(cube);
