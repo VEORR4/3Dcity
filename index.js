@@ -105,13 +105,13 @@ function init(){
           smoke.add(particular);
      };
 
-     var pmaterial = new THREE.MeshPhongMaterial({
+     var pmaterial = new THREE.MeshStandardMaterial({
           color: 0x000000,
           roughness: 10,
           metalness: 0.6,
           opacity: 0.9,
-          transparent: true
-     });
+          transparent: true,
+     })
 
      var pgeometry = new THREE.PlaneGeometry(60, 60);
      var pelement = new THREE.Mesh(pgeometry, pmaterial);
