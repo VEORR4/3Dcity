@@ -1,5 +1,5 @@
 //Base parameters
-var renderer = new THREE.WebGLRenderer({antialas: true});
+var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 if (window.innerWidth > 800){
@@ -73,7 +73,7 @@ function init(){
           var cube = new THREE.Mesh(geometry, material);
           var wire = new THREE.Mesh(geometry, material);
           var floor = new THREE.Mesh(geometry, material);
-          var wfloor = new THREE.Mesh(geometry, material)
+          var wfloor = new THREE.Mesh(geometry, material);
 
           cube.add(wfloor);
           cube.setShadow = true;
